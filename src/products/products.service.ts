@@ -3,6 +3,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { Model } from 'mongoose';
 import { Product } from './schemas/product.schema';
 import { InjectModel } from '@nestjs/mongoose';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductsService {
@@ -13,19 +14,19 @@ export class ProductsService {
     return createdProduct.save();
   }
 
-  async findAll() {
+  async findAll(): Promise<Product[]> {
     return this.productModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
-  }
-/*
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async findOne(id: string): Promise<Product> {
+    return this.productModel.findById(id).exec();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
-  }*/
+  async update(id: string, updateProductDto: UpdateProductDto) {
+    return this.productModel.updateOne(updateProductDto).exec();
+  }
+
+  async remove(id: string) {
+    return this.productModel.findByIdAndDelete(id).exec();
+  }
 }
