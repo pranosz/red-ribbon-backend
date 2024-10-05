@@ -1,8 +1,8 @@
 pipeline {
     agent any
 
-    tools {
-        NodeJs "NodeJs"
+    environment {
+        NODE_HOME = tool 'NodeJS'
     }
 
     stages {
@@ -14,6 +14,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
+                    def npm = "${NODE_HOME}/bin/npm"
                     sh "${npm} install"
                 }
             }
@@ -21,6 +22,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
+                    def npm = "${NODE_HOME}/bin/npm"
                     sh "${npm} test"
                 }
             }
@@ -28,6 +30,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
+                    def npm = "${NODE_HOME}/bin/npm"
                     sh "${npm} run build"
                 }
             }
