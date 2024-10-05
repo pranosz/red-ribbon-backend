@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        NODE_HOME = tool 'NodeJS'
+        NODE_HOME = tool 'nodejs'
     }
 
     stages {
