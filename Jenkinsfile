@@ -2,43 +2,35 @@ pipeline {
     agent any
 
     environment {
-        NODE_HOME = tool 'nodejs'
+        NODE_HOME = tool name: 'nodejs', type: 'NodeJSInstallation'
+        PATH = "${NODE_HOME}/bin:${env.PATH}"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/pranosz/red-ribbon-backend.git'
+                git branch: 'main', url: 'https://github.com/pranosz/red-ribbon-backend.git'
             }
         }
         stage('Install Dependencies') {
             steps {
-                script {
-                    def npm = "${NODE_HOME}/bin/npm"
-                    sh "${npm} install"
-                }
+                sh 'npm install'
             }
         }
         stage('Run Tests') {
             steps {
-                script {
-                    def npm = "${NODE_HOME}/bin/npm"
-                    sh "${npm} test"
-                }
+                sh 'npm test'
             }
         }
         stage('Build') {
             steps {
-                script {
-                    def npm = "${NODE_HOME}/bin/npm"
-                    sh "${npm} run build"
-                }
+                sh 'npm run build'
             }
         }
         stage('Deploy') {
             steps {
-                // Dodaj tutaj kroki do wdrożenia aplikacji
                 echo 'Wdrożenie aplikacji...'
+                // Dodaj tutaj kroki do wdrożenia aplikacji
             }
         }
     }
